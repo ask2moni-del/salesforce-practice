@@ -1,0 +1,29 @@
+<template>
+    <lightning-card title="External System API Integration (10 Items List)" icon-name="standard:product">
+        <div class="slds-p-around_medium">
+            <p class="slds-m-bottom_medium slds-text-color_weak">Click on any product name below to open its full details inside the child modal.</p>
+            
+            <div class="slds-box slds-theme_default">
+                <template for:each={products} for:item="prod">
+                    <div 
+                        key={prod.id} 
+                        class="product-row slds-p-around_small slds-border_bottom" 
+                        onclick={handleProductClick} 
+                        data-id={prod.id}>
+                        <div class="slds-grid slds-grid_align-spread">
+                            <span class="product-name-txt"><strong>{prod.title}</strong></span>
+                            <span class="slds-badge slds-theme_inverse">${prod.price}</span>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+        <c-product-detail-modal 
+            is-open={isModalOpen} 
+            selected-product={currentProduct}
+            onclose={closeModal}
+            onsave={handleReplicateAndSave}>
+        </c-product-detail-modal>
+    </lightning-card>
+</template>

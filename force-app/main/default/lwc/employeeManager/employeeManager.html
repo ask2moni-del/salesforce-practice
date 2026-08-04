@@ -1,0 +1,126 @@
+<template>
+    <lightning-card title="Employee Directory Workspace" icon-name="custom:custom15">
+        
+        <div class="slds-p-horizontal_medium slds-p-vertical_small slds-border_bottom slds-grid slds-grid_vertical-align-center slds-theme_default" style="background-color: #f8f9fa;">
+            <div class="slds-col">
+                <lightning-input 
+                    type="search" 
+                    variant="label-hidden"
+                    placeholder="🔍 Search employees by name..."
+                    value={searchKey} 
+                    onchange={handleSearchChange}
+                    style="max-width: 380px;">
+                </lightning-input>
+            </div>
+            <div class="slds-col slds-grow_none">
+                <lightning-button 
+                    label="Reset All Filters" 
+                    variant="neutral" 
+                    icon-name="utility:refresh"
+                    onclick={handleClearFilters}>
+                </lightning-button>
+                <lightning-button 
+                    label="Save Changes" 
+                    variant="brand" 
+                    icon-name="utility:save"
+                    onclick={handleSave} 
+                    class="slds-m-left_x-small">
+                </lightning-button>
+            </div>
+        </div>
+
+        <div class="slds-p-around_medium">
+            <div class="slds-border_top slds-border_bottom slds-border_left slds-border_right" style="border-radius: 4px; overflow: hidden;">
+                <table class="slds-table slds-table_bordered slds-table_fixed-layout clean-table">
+                    <thead>
+                        <tr style="background-color: #f3f4f6; height: 56px;">
+                            <th scope="col" style="width: 20%; padding-left: 16px; vertical-align: middle;">
+                                <span class="slds-text-title_caps slds-text-color_weak slds-font-weight_bold">Employee Name</span>
+                            </th>
+                            
+                            <th scope="col" style="width: 22%; vertical-align: middle;">
+                                <span class="slds-text-title_caps slds-text-color_weak slds-font-weight_bold">Email Address</span>
+                            </th>
+                            
+                            <th scope="col" style="width: 16%; padding-top: 4px;">
+                                <span class="slds-text-title_caps slds-text-color_weak slds-font-weight_bold slds-m-bottom_xxxx-small slds-block">Department</span>
+                                <lightning-combobox variant="label-hidden" value={deptFilter} options={deptOptions} onchange={handleDeptFilterChange}></lightning-combobox>
+                            </th>
+                            
+                            <th scope="col" style="width: 14%; padding-top: 4px;">
+                                <span class="slds-text-title_caps slds-text-color_weak slds-font-weight_bold slds-m-bottom_xxxx-small slds-block">Status</span>
+                                <lightning-combobox variant="label-hidden" value={statusFilter} options={statusOptions} onchange={handleStatusFilterChange}></lightning-combobox>
+                            </th>
+                            
+                            <th scope="col" style="width: 14%; padding-top: 4px;">
+                                <span class="slds-text-title_caps slds-text-color_weak slds-font-weight_bold slds-m-bottom_xxxx-small slds-block">Priority</span>
+                                <lightning-combobox variant="label-hidden" value={priorityFilter} options={priorityOptions} onchange={handlePriorityFilterChange}></lightning-combobox>
+                            </th>
+                            
+                            <th scope="col" style="width: 14%; padding-right: 16px; vertical-align: middle;">
+                                <span class="slds-text-title_caps slds-text-color_weak slds-font-weight_bold">Phone</span>
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <template for:each={filteredEmployees} for:item="emp">
+                            <tr key={emp.Id} style="height: 44px;">
+                                <td style="padding-left: 12px;">
+                                    <lightning-input data-id={emp.Id} data-field="Name" variant="label-hidden" value={emp.Name} onchange={handleFieldChange}></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-input type="email" data-id={emp.Id} data-field="Email__c" variant="label-hidden" value={emp.Email__c} onchange={handleFieldChange}></lightning-input>
+                                </td>
+                                
+                                <td style="padding: 2px 4px;">
+                                    <lightning-combobox 
+                                        data-id={emp.Id} 
+                                        data-field="Department__c" 
+                                        variant="label-hidden" 
+                                        value={emp.Department__c} 
+                                        options={rowDeptOptions} 
+                                        onchange={handleFieldChange}>
+                                    </lightning-combobox>
+                                </td>
+                                
+                                <td style="padding: 2px 4px;">
+                                    <lightning-combobox 
+                                        data-id={emp.Id} 
+                                        data-field="Status__c" 
+                                        variant="label-hidden" 
+                                        value={emp.Status__c} 
+                                        options={rowStatusOptions} 
+                                        onchange={handleFieldChange}>
+                                    </lightning-combobox>
+                                </td>
+                                
+                                <td style="padding: 2px 4px;">
+                                    <lightning-combobox 
+                                        data-id={emp.Id} 
+                                        data-field="Priority__c" 
+                                        variant="label-hidden" 
+                                        value={emp.Priority__c} 
+                                        options={rowPriorityOptions} 
+                                        onchange={handleFieldChange}>
+                                    </lightning-combobox>
+                                </td>
+                                
+                                <td style="padding-right: 12px;">
+                                    <lightning-input type="tel" data-id={emp.Id} data-field="Phone__c" variant="label-hidden" value={emp.Phone__c} onchange={handleFieldChange}></lightning-input>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+                
+                <template if:false={hasRecords}>
+                    <div class="slds-align_absolute-center slds-p-around_xx-large slds-theme_default" style="flex-direction: column;">
+                        <lightning-icon icon-name="utility:search" size="medium" class="slds-m-bottom_x-small"></lightning-icon>
+                        <span class="slds-text-heading_small slds-text-color_weak">No records matched your search parameters</span>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </lightning-card>
+</template>

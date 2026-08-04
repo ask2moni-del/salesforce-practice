@@ -1,0 +1,55 @@
+/* Create a single clean outer box around the table */
+.table-wrapper {
+    border: 1px solid #dddbda;
+    border-radius: 0.25rem;
+    /* Changed from hidden to visible so bottom dropdowns can expand past the table boundary */
+    overflow: visible !important; 
+    background: #fff;
+}
+
+/* Ensure dropdowns can still overflow the cells properly */
+th, td {
+    overflow: visible !important;
+    padding: 0.5rem !important;
+    border-bottom: 1px solid #e1e4e6 !important;
+}
+
+tr {
+    overflow: visible !important;
+}
+
+.slds-scrollable_x {
+    overflow-y: visible !important; 
+}
+
+/* Remove default bulky borders and backgrounds from inputs to stop the "multiple boxes" effect */
+td lightning-input :deep(.slds-input),
+td lightning-combobox :deep(.slds-input) {
+    border: none !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    height: auto !important;
+}
+
+/* Light gray background on hover to show rows are connected */
+tr:hover td {
+    background-color: #f3f3f3 !important;
+}
+
+/* Add a subtle underline or border on active input focus so users know they are editing */
+td lightning-input :deep(.slds-input:focus),
+td lightning-combobox :deep(.slds-combobox_container:focus-within) {
+    background-color: #fff !important;
+    outline: 2px solid #1b96ff !important;
+    border-radius: 4px !important;
+}
+
+/* 🚀 FIX: Targets the last 2 rows of the table and forces the picklist panels 
+   to render upwards so they never get cut off at the bottom of the card */
+tr:nth-last-child(-n+2) lightning-combobox :deep(.slds-dropdown) {
+    bottom: 100% !important;
+    top: auto !important;
+    margin-bottom: 0.25rem;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.15) !important;
+}

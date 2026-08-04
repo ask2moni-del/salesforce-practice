@@ -1,0 +1,13 @@
+.product-row {
+    cursor: pointer;
+    transition: background 0.15s ease-in-out;
+}
+
+.product-row:hover {
+    background-color: #f3f3f3;
+}
+
+.product-name-txt {
+    font-size: 14px;
+    color: #0176d3;
+}

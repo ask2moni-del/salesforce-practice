@@ -1,0 +1,30 @@
+/* Removes the default aggressive input borders on initial view */
+.clean-table lightning-input, 
+.clean-table lightning-combobox {
+    --slds-c-input-spacing-horizontal-start: 8px;
+    --slds-c-input-spacing-horizontal-end: 8px;
+}
+
+/* Give inputs a subtle borderless look that highlights cleanly on focus */
+.clean-table tr td lightning-input,
+.clean-table tr td lightning-combobox {
+    --slds-c-input-color-border: transparent;
+    --slds-c-input-radius-border: 4px;
+}
+
+/* Reveal an elegant soft edit border only when hovering over a row */
+.clean-table tr:hover td lightning-input,
+.clean-table tr:hover td lightning-combobox {
+    --slds-c-input-color-border: #dddbda;
+}
+
+/* Ensure active/focused inputs stand out clearly */
+.clean-table tr td lightning-input:focus-within,
+.clean-table tr td lightning-combobox:focus-within {
+    --slds-c-input-color-border: #1b96ff;
+}
+
+/* Custom visual alignment style tweaks */
+.custom-search-input {
+    max-width: 320px;
+}

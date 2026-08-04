@@ -1,0 +1,177 @@
+<template>
+    <lightning-card title="Account Inline Editor" icon-name="standard:account">
+        
+        <div class="slds-p-around_medium slds-grid slds-grid_vertical-align-end">
+            <div class="slds-size_1-of-4">
+                <lightning-input 
+                    type="search" 
+                    label="Search Account Name" 
+                    placeholder="Search name..."
+                    value={searchKey} 
+                    onchange={handleSearchChange}>
+                </lightning-input>
+            </div>
+            <div class="slds-m-left_medium">
+                <lightning-button 
+                    label="Clear Filters" 
+                    variant="neutral" 
+                    onclick={handleClearFilters}>
+                </lightning-button>
+                <lightning-button 
+                    label="Save Changes" 
+                    variant="brand" 
+                    onclick={handleSave}
+                    class="slds-m-left_x-small">
+                </lightning-button>
+            </div>
+        </div>
+
+        <div class="slds-p-around_medium slds-scrollable_x" style="overflow-y: visible !important;">
+            <div class="table-wrapper">
+                <table class="slds-table slds-table_cell-buffer" style="width: 100%; table-layout: fixed;">
+                    <thead>
+                        <tr class="slds-line-height_reset" style="background-color: #f3f3f3;">
+                            <th scope="col" style="width: 20%; vertical-align: bottom;">
+                                <div class="slds-truncate slds-m-bottom_x-small" title="Account Name">Account Name</div>
+                            </th>
+                            <th scope="col" style="width: 16%;">
+                                <div class="slds-truncate slds-m-bottom_xx-small" title="Industry">Industry</div>
+                                <lightning-combobox 
+                                    name="industry"
+                                    variant="label-hidden" 
+                                    value={industryFilter} 
+                                    options={industryOptions} 
+                                    onchange={handleIndustryFilterChange}>
+                                </lightning-combobox>
+                            </th>
+                            <th scope="col" style="width: 16%;">
+                                <div class="slds-truncate slds-m-bottom_xx-small" title="Type">Type</div>
+                                <lightning-combobox 
+                                    name="type"
+                                    variant="label-hidden" 
+                                    value={typeFilter} 
+                                    options={typeOptions} 
+                                    onchange={handleTypeFilterChange}>
+                                </lightning-combobox>
+                            </th>
+                            <th scope="col" style="width: 16%;">
+                                <div class="slds-truncate slds-m-bottom_xx-small" title="Rating">Rating</div>
+                                <lightning-combobox 
+                                    name="rating"
+                                    variant="label-hidden" 
+                                    value={ratingFilter} 
+                                    options={ratingOptions} 
+                                    onchange={handleRatingFilterChange}>
+                                </lightning-combobox>
+                            </th>
+                            <th scope="col" style="width: 16%; vertical-align: bottom;">
+                                <div class="slds-truncate slds-m-bottom_x-small" title="Customer Priority">Customer Priority</div>
+                            </th>
+                            <th scope="col" style="width: 16%; vertical-align: bottom;">
+                                <div class="slds-truncate slds-m-bottom_x-small" title="SLA">SLA</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={filteredAccounts} for:item="acc">
+                            <tr key={acc.Id}>
+                                <td>
+                                    <lightning-input 
+                                        data-id={acc.Id} 
+                                        data-field="Name" 
+                                        variant="label-hidden" 
+                                        value={acc.Name} 
+                                        onchange={handleFieldChange}>
+                                    </lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-combobox 
+                                        data-id={acc.Id} 
+                                        data-field="Industry" 
+                                        variant="label-hidden" 
+                                        value={acc.Industry} 
+                                        options={industryOptionsWithoutAll} 
+                                        onchange={handleFieldChange}
+                                        placeholder="Select an Option">
+                                    </lightning-combobox>
+                                </td>
+                                <td>
+                                    <lightning-combobox 
+                                        data-id={acc.Id} 
+                                        data-field="Type" 
+                                        variant="label-hidden" 
+                                        value={acc.Type} 
+                                        options={typeOptionsWithoutAll} 
+                                        onchange={handleFieldChange}
+                                        placeholder="Select an Option">
+                                    </lightning-combobox>
+                                </td>
+                                <td>
+                                    <lightning-combobox 
+                                        data-id={acc.Id} 
+                                        data-field="Rating" 
+                                        variant="label-hidden" 
+                                        value={acc.Rating} 
+                                        options={ratingOptionsWithoutAll} 
+                                        onchange={handleFieldChange}
+                                        placeholder="Select an Option">
+                                    </lightning-combobox>
+                                </td>
+                                <td>
+                                    <lightning-combobox 
+                                        data-id={acc.Id} 
+                                        data-field="CustomerPriority__c" 
+                                        variant="label-hidden" 
+                                        value={acc.CustomerPriority__c} 
+                                        options={priorityOptions} 
+                                        onchange={handleFieldChange}
+                                        placeholder="Select an Option">
+                                    </lightning-combobox>
+                                </td>
+                                <td>
+                                    <lightning-combobox 
+                                        data-id={acc.Id} 
+                                        data-field="SLA__c" 
+                                        variant="label-hidden" 
+                                        value={acc.SLA__c} 
+                                        options={slaOptions} 
+                                        onchange={handleFieldChange}
+                                        placeholder="Select an Option">
+                                    </lightning-combobox>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+
+            <template if:false={hasRecords}>
+                <div class="slds-align_absolute-center slds-p-around_medium">No records found.</div>
+            </template>
+        </div>
+
+        <template if:true={hasRecords}>
+            <div class="slds-p-horizontal_medium slds-p-bottom_medium slds-grid slds-grid_align-spread slds-grid_vertical-align-center">
+                <div class="slds-text-color_weak slds-text-body_medium">
+                    Page <strong>{pageNumber}</strong>
+                </div>
+                <div class="slds-button-group" role="group">
+                    <lightning-button 
+                        label="Previous" 
+                        icon-name="utility:chevronleft" 
+                        onclick={handlePreviousPage} 
+                        disabled={isFirstPage}>
+                    </lightning-button>
+                    <lightning-button 
+                        label="Next" 
+                        icon-name="utility:chevronright" 
+                        icon-position="right"
+                        onclick={handleNextPage} 
+                        disabled={isLastPage}>
+                    </lightning-button>
+                </div>
+            </div>
+        </template>
+        
+    </lightning-card>
+</template>
