@@ -18,11 +18,12 @@
                     onclick={handleClearFilters}>
                 </lightning-button>
                 <lightning-button 
-                    label="Save Changes" 
-                    variant="brand" 
-                    onclick={handleSave}
-                    class="slds-m-left_x-small">
+                    label="Clear Filters" 
+                    variant="neutral" 
+                    onclick={handleClearFilters}>
                 </lightning-button>
+                
+                
             </div>
         </div>
 
@@ -58,7 +59,12 @@
                                 <div class="slds-truncate slds-m-bottom_xx-small" title="Rating">Rating</div>
                                 <lightning-combobox 
                                     name="rating"
-                                    variant="label-hidden" 
+                                    v<lightning-button 
+                    label="Save Changes" 
+                    variant="brand" 
+                    onclick={handleSave}
+                    class="slds-m-left_x-small">
+                </lightning-button>ariant="label-hidden" 
                                     value={ratingFilter} 
                                     options={ratingOptions} 
                                     onchange={handleRatingFilterChange}>
