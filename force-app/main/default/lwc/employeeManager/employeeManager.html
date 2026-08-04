@@ -11,6 +11,14 @@
                     onchange={handleSearchChange}
                     style="max-width: 380px;">
                 </lightning-input>
+                <lightning-input 
+                    type="search" 
+                    variant="label-hidden"
+                    placeholder="🔍 Search employees by name..."
+                    value={searchKey} 
+                    onchange={handleSearchChange}
+                    style="max-width: 380px;">
+                </lightning-input>
             </div>
             <div class="slds-col slds-grow_none">
                 <lightning-button 
